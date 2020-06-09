@@ -20,8 +20,7 @@ router.get('/:id', (req, res) => {
     knex
     .select('*')
     .from('accounts')
-    .where({id: req.params})
-    .first()
+    .where({id: req.params.id})
     .then(account => {
         res.status(200).json({data:account})
     })
@@ -31,10 +30,11 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+    const body = req.body
     knex('accounts')
-    .insert(req.body, 'id')
-    .then(([accounts]) => {
-        res.status(201).json({data:account})
+    .insert(body)
+    .then(accounts => {
+        res.status(201).json({data:accounts})
     })
     .catch(err => {
         res.status(500).json({message: err.message})
